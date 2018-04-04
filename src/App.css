@@ -1,0 +1,173 @@
+.App {
+    background-color: white;
+}
+
+.App-header {
+    background-color: white;
+    height: 50px;
+}
+
+.App-title {
+    padding-left: 1%;
+    padding-top: 1%;
+}
+
+.App-title1{
+    color: #222;
+}
+
+.App-title2{
+    color: dodgerblue;
+}
+
+.quotes{
+    float: right;
+    font-size: 11px;
+    font-family:'Segoe UI',Arial,sans-serif;
+    padding-top: 1%;
+    padding-right: 1%;
+}
+
+ul.Top-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: dodgerblue;
+}
+
+ul.Top-nav li {float: left;}
+
+ul.Top-nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+ul.Top-nav li a:hover:not(.active) {background-color: black;}
+
+ul.Top-nav li.right {float: right;}
+
+@media screen and (max-width: 600px){
+    ul.Top-nav li.right,
+    ul.Top-nav li {float: none;}
+}
+
+.News-body{
+    margin-top: 1%;
+}
+
+.Body-left{
+    width: 20%;
+    float: left;
+}
+
+.Post-button{
+    width: 95%;
+    margin-left: 2.5%;
+    display: block;
+    height: 45px;
+    background-color: red;
+    border: none;
+}
+.Post-button a{
+    color: white;
+    text-decoration: none;
+}
+
+.Sort-post{
+    width: 95%;
+    margin-left: 2.5%;
+    margin-top: 1%;
+    height: 45px;
+    background: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    margin-bottom: 3%;
+}
+.Sort-post select {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.Body-right{
+    width: 80%;
+    float: right;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-bottom: 2%;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+    text-align: justify !important;
+    padding: 2px 16px;
+}
+.container p{
+    font-family: "Times New Roman",serif;
+    font-size: smaller;
+}
+.Like{
+    cursor: pointer;
+    width: 50%;
+    background: none;
+    box-shadow: none;
+    border: none;
+    border-right: 1px solid;
+}
+.Comment{
+    cursor: pointer;
+    width: 50%;
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+.Like-comment{
+    font-size: 13px;
+    font-family: "Arial Rounded MT Bold",SansSerif;
+}
+.Like-comment1{
+    text-align: left;
+    color: red;
+}
+.Like-comment2{
+    float: right;
+    color: #0056b3;
+}
+.Time{
+    font-size: 9px;
+    color: #0056b3;
+}
+.Author{
+    float: right;
+    color: darkred;
+    font-size: 11px;
+}
+.Show-comment{
+    font-size: 11px;
+    padding: 0.5%;
+    background-color: #DDDDDD;
+    margin-bottom: 1px;
+}
+.Show-comment-button button{
+    font-size: 9px;
+    border-radius: 40%;
+    background-color: white;
+    box-shadow: none !important;
+}
+
+@media screen and (max-width: 600px){
+    .Body-left,.Body-right{
+        float: none;
+        width: auto;
+    }
+}
