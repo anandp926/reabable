@@ -10,6 +10,7 @@ export const getCategories = categories => ({
     categories
 });
 
+
 // Fetch categories from API
 export const fetchCategories = () => dispatch => (
     api

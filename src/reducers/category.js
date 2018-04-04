@@ -3,19 +3,13 @@
  */
 import { CATEGORY } from '../actions/category'
 
+function categories(state={}, action) {
 
-
-function categories(state=[], action) {
-    const {categories} = action
     switch(action.type){
         case CATEGORY:
-            return {
-                ...state,
-                categories
-            };
+            return action.categories;
         default:
             return state;
     }
 }
-
 export default categories

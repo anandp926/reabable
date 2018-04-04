@@ -8,8 +8,8 @@ import { fetchCategories } from '../actions/category'
 
 class Header extends Component{
 
-    componentWillMount () {
-       this.props.fetchCategories()
+    componentDidMount () {
+       this.props.fetchCategories();
     }
 
     render() {
@@ -24,8 +24,8 @@ class Header extends Component{
                     </h1>
                 </div>
                 <ul className="Top-nav">
-                    {categories.map( (category, index) =>(
-                        <li key={category[index]}>
+                    {categories.map( (category) =>(
+                        <li key={category.path}>
                             <a href={category.path}>
                                 {category.name}
                             </a>
@@ -36,12 +36,10 @@ class Header extends Component{
         );
     }
 }
-function mapStateToProps(state){
-    return{
-        categories: state.categories
-    }
-}
+const mapStateToProps = (state) => ({
+    categories: state.categories
+});
 
 
 
-export default connect(mapStateToProps, fetchCategories)(Header);
+export default connect(mapStateToProps, {fetchCategories})(Header);
