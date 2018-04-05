@@ -4,9 +4,17 @@
 import React, { Component } from 'react'
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
 import FaCommentO from 'react-icons/lib/fa/comment-o'
+import { connect } from 'react-redux'
+import { fetchAllPosts } from '../actions/posts'
 
 class Post extends Component {
+
+    componentDidMount(){
+        this.props.fetchAllPosts();
+    }
+
     render() {
+        console.log(this.props);
         return (
             <div className="card">
                 <div className="container">
@@ -47,4 +55,8 @@ class Post extends Component {
     }
 }
 
-export default Post;
+const mapStateToProps = state => ({
+    posts: state.posts
+});
+
+export default connect(mapStateToProps, { fetchAllPosts })(Post);
