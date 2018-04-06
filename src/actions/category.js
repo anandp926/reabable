@@ -10,7 +10,7 @@ export const getCategories = categories => ({
     categories
 });
 
-
+/*
 // Fetch categories from API
 export const fetchCategories = () => dispatch => (
     api
@@ -18,3 +18,4 @@ export const fetchCategories = () => dispatch => (
         .then(categories => dispatch(getCategories(categories)))
 );
 
+*/

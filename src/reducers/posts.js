@@ -8,7 +8,7 @@ function posts(state = {}, action) {
         case GET_POSTS:
             return action.posts;
         default:
-            return state
+            return state;
     }
 }
 

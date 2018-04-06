@@ -10,6 +10,8 @@ export const getAllPosts = posts => ({
     posts
 });
 
-export const fetchAllPosts = () => (dispatch) =>{
-    api.getAllPosts().then(posts => dispatch(getAllPosts(posts)) )
-};
+/*
+export const fetchAllPosts = () => (dispatch) =>(
+    api.getAllPosts().then(posts => dispatch(getAllPosts(posts)))
+);
+*/

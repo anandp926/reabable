@@ -5,7 +5,8 @@ import React, { Component } from 'react'
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
 import FaCommentO from 'react-icons/lib/fa/comment-o'
 import { connect } from 'react-redux'
-import { fetchAllPosts } from '../actions/posts'
+import { getAllPosts } from '../actions/posts'
+import * as api from '../utils/api'
 
 class Post extends Component {
 
@@ -55,8 +56,13 @@ class Post extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => {
+    return {
     posts: state.posts
+}};
+
+export const mapDispatchToProps = (dispatch) =>({
+    fetchAllPosts: () => api.getAllPosts().then(posts => dispatch(getAllPosts(posts)))
 });
 
-export default connect(mapStateToProps, { fetchAllPosts })(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

@@ -3,17 +3,19 @@
  */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCategories } from '../actions/category'
+import { getCategories } from '../actions/category'
+import * as api from '../utils/api'
 
 
 class Header extends Component{
-
+   
     componentDidMount () {
        this.props.fetchCategories();
     }
 
     render() {
         const {categories} = this.props;
+        console.log(this.props)
         return (
             <div className="Top-header">
                 <div className="App-header">
@@ -36,10 +38,14 @@ class Header extends Component{
         );
     }
 }
-const mapStateToProps = (state) => ({
-    categories: state.categories
+const mapStateToProps = (state) => {
+    return{
+        categories: state.categories
+    }
+};
+export const mapDispatchToProps = (dispatch) =>({
+    fetchCategories: () => api.getCategory().then(categories => dispatch(getCategories(categories)))
 });
 
 
-
-export default connect(mapStateToProps, {fetchCategories})(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
