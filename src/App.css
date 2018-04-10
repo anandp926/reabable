@@ -118,7 +118,7 @@ ul.Top-nav li.right {float: right;}
 }
 .Like{
     cursor: pointer;
-    width: 50%;
+    width: 25%;
     background: none;
     box-shadow: none;
     border: none;
@@ -126,7 +126,7 @@ ul.Top-nav li.right {float: right;}
 }
 .Comment{
     cursor: pointer;
-    width: 50%;
+    width: 25%;
     background: none;
     box-shadow: none;
     border: none;

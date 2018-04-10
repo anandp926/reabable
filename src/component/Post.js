@@ -3,10 +3,13 @@
  */
 import React, { Component } from 'react'
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
+import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down'
+import FaTrashO from 'react-icons/lib/fa/trash-o'
 import FaCommentO from 'react-icons/lib/fa/comment-o'
 import { connect } from 'react-redux'
-import { getAllPosts } from '../actions/posts'
+import { fetchAllPosts } from '../actions/posts'
 import * as api from '../utils/api'
+import Comment from './Comment'
 
 class Post extends Component {
 
@@ -15,54 +18,59 @@ class Post extends Component {
     }
 
     render() {
-        console.log(this.props);
+        const { posts } = this.props;
         return (
-            <div className="card">
-                <div className="container">
-                    <div className="Time">
-                        6:35 PM, Saturday, 31 March 2018
-                    </div>
-                    <h4>
-                        <b><a href="#post">'We are back': Emotional Dhoni on Chennai Super Kings' IPL return</a></b>
-                        <small className="Author">By: Anand Singh</small>
-                    </h4>
-                    <p>
-                        NEW DELHI: 'Captain Cool' Mahendra Singh Dhoni got emotional while speaking about the return of Chennai Super Kings (CSK) to the Indian Premier League (IPL) after two years.
-                        "We are back! We are back as a whole team," an emotional Dhoni was seen speaking in a brief video shared on Twitter.
-                    </p>
-                    <div className="Like-comment">
-                        <span className="Like-comment1">100 Likes</span>
-                        <span className="Like-comment2">564 Comments</span>
-                    </div>
-                    <div className="Vote-comment">
-                        <button className="Like">
-                            <FaThumbsOUp size={30}/>Like
-                        </button>
-                        <button className="Comment">
-                            <FaCommentO size={30}/>Comment
-                        </button>
-                    </div>
-                    <div className="Show-comment">
-                        I'm working with you for money. if i have money no one can defeat me.
-                        <div className="Show-comment-button">
-                            <button>replay</button>
-                            <button>edit</button>
-                            <button>delete</button>
+            <div>
+                {posts !== 'undefined' && posts.map((post) => {
+                    return(
+                        <div className="card" key={post.id}>
+                            <div className="container">
+                                <div className="Time">
+                                    {post.timestamp}
+                                </div>
+                                <h4>
+                                    <b><a href="#post">{post.title}</a></b>
+                                    <small className="Author">By: {post.author}</small>
+                                </h4>
+                                <p>
+                                    {post.body}
+                                </p>
+                                <div className="Like-comment">
+                                    <span className="Like-comment1">{post.voteScore} Likes</span>
+                                    <span className="Like-comment2">{post.commentCount} Comments</span>
+                                </div>
+                                <div className="Vote-comment">
+                                    <button className="Like">
+                                        <FaThumbsOUp size={30}/>
+                                    </button>
+                                    <button className="Like">
+                                        <FaThumbsODown size={30}/>
+                                    </button>
+                                    <button className="Like">
+                                        <FaCommentO size={30}/>
+                                    </button>
+                                    <button className="Comment">
+                                        <FaTrashO size={30}/>
+                                    </button>
+                                </div>
+                                <Comment postId={post.id}/>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    )
+                })}
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return {
-    posts: state.posts
-}};
+    return{
+        posts: Object.values(state.posts)
+    }
+};
 
 export const mapDispatchToProps = (dispatch) =>({
-    fetchAllPosts: () => api.getAllPosts().then(posts => dispatch(getAllPosts(posts)))
+    fetchAllPosts: () => api.getAllPosts().then(posts => dispatch(fetchAllPosts(posts)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

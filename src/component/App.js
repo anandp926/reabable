@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Post from './Post'
+import Posts from './Posts'
 import Header from './Header'
 
 class App extends Component {
@@ -23,10 +23,7 @@ class App extends Component {
                         </div>
                     </div>
                     <div className="Body-right">
-                        <Post/>
-                        <Post/>
-                        <Post/>
-                        <Post/>
+                        <Posts/>
                     </div>
                 </div>
             </div>
