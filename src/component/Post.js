@@ -23,7 +23,8 @@ class Post extends Component {
             <div>
                 {posts !== 'undefined' && posts.map((post) => {
                     return(
-                        <div className="card" key={post.id}>
+                        <div className="column" key={post.id}>
+                        <div className="card" >
                             <div className="container">
                                 <div className="Time">
                                     {post.timestamp}
@@ -55,6 +56,7 @@ class Post extends Component {
                                 </div>
                                 <Comment postId={post.id}/>
                             </div>
+                        </div>
                         </div>
                     )
                 })}

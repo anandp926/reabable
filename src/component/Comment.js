@@ -9,15 +9,16 @@ import { fetchComments } from '../actions/comment'
 class Comment extends Component {
 
     componentDidMount(){
-        this.props.fetchComments(this.props.postId);
+        const { postId } = this.props;
+        this.props.fetchComments(postId);
     }
 
     render() {
         const {postId, comments} = this.props;
-        console.log(this.props);
+       // console.log(this.props);
         return(
             <div>
-                {comments.filter((cm) => cm.parentId !== postId ).map((comment) => {
+                {comments.filter(com => com.parentId === postId).map((comment) => {
                     return(
                         <div className="Show-comment" key={comment.id}>
                             {comment.body}

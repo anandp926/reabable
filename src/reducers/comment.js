@@ -3,10 +3,17 @@
  */
 import { FETCH_COMMENTS } from '../actions/comment'
 
-function comments(state = {}, action) {
+function comments(state = [], action) {
+    const { comments } = action;
     switch (action.type) {
         case FETCH_COMMENTS:
-            return action.comments
+            return {
+                ...state,
+                comments: comments.reduce((accu, curr) => {
+                    accu[curr.id] = curr;
+                    return accu;
+                }, {})
+            }
         default:
             return state
     }

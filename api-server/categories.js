@@ -6,28 +6,16 @@ let db = {}
 const defaultData = {
   categories: [
       {
-        name: 'home',
-        path: 'home'
+          name: 'react',
+          path: 'react'
       },
       {
-        name: 'sport',
-        path: 'sport'
+          name: 'redux',
+          path: 'redux'
       },
       {
-        name: 'politics',
-        path: 'politics'
-      },
-      {
-          name: 'entertainment',
-          path: 'entertainment'
-      },
-      {
-          name: 'international',
-          path: 'international'
-      },
-      {
-          name: 'hot',
-          path: 'hot'
+          name: 'udacity',
+          path: 'udacity'
       }
   ]
 }
