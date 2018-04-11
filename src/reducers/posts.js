@@ -12,7 +12,7 @@ function posts(state = {}, action) {
         case FETCH_NEWPOSTS:
             return {
                 ...state,
-                posts: state.posts.concat()
+                posts: state.posts.concat(post)
             };
         default:
             return state
