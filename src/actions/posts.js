@@ -13,4 +13,4 @@ export const fetchAllPosts = posts => ({
 export const fetchNewPosts = posts => ({
     type: FETCH_NEWPOSTS,
     posts
-})
+});

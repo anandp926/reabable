@@ -40,7 +40,7 @@ export const addNewPost = (newPost) => {
         },
         body: JSON.stringify(newPost)
     })
-        .then(data => data.json())
+        .then(data => data.json()).then((post) => post)
 };
 
 // PUT /posts/:id

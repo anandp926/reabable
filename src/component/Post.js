@@ -10,17 +10,26 @@ import { connect } from 'react-redux'
 import { fetchAllPosts } from '../actions/posts'
 import * as api from '../utils/api'
 import Comment from './Comment'
+import { Link } from 'react-router-dom'
 
 class Post extends Component {
 
     componentDidMount(){
-        this.props.fetchAllPosts();
+        const filter = this.props.match.params.category || false;
+        this.props.fetchAllPosts(filter);
     }
-
+    componentWillReceiveProps(nextProps){
+        if( nextProps.match.params.category !== this.props.match.params.category ) {
+            const filter = nextProps.match.params.category || false;
+            this.props.fetchPosts(filter);
+            console.log(filter)
+        }
+    }
     render() {
         const { posts } = this.props;
         return (
-            <div>
+            <div className="News-body">
+                <div className="row">
                 {posts !== 'undefined' && posts.map((post) => {
                     return(
                         <div className="column" key={post.id}>
@@ -30,7 +39,7 @@ class Post extends Component {
                                     {post.timestamp}
                                 </div>
                                 <h4>
-                                    <b><a href="#post">{post.title}</a></b>
+                                    <b><Link to={post.id}>{post.title}</Link></b>
                                     <small className="Author">By: {post.author}</small>
                                 </h4>
                                 <p>
@@ -60,6 +69,7 @@ class Post extends Component {
                         </div>
                     )
                 })}
+                </div>
             </div>
         );
     }
@@ -72,7 +82,7 @@ const mapStateToProps = (state) => {
 };
 
 export const mapDispatchToProps = (dispatch) =>({
-    fetchAllPosts: () => api.getAllPosts().then(posts => dispatch(fetchAllPosts(posts)))
+    fetchAllPosts: (filter) => api.getAllPosts(filter).then(posts => dispatch(fetchAllPosts(posts)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

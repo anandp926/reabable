@@ -11,6 +11,7 @@ import Addpost from './Addpost'
 import uuid from 'uuid'
 import FormSerialize from 'form-serialize'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
+import { Link } from 'react-router-dom'
 
 class Menu extends Component{
 
@@ -57,9 +58,9 @@ class Menu extends Component{
             <ul className="Top-nav">
                 {categories !== 'undefined' && categories.map( (category) =>(
                     <li key={category.path}>
-                        <a href={category.path}>
+                        <Link to={category.path}>
                             {category.name}
-                        </a>
+                        </Link>
                     </li>
                 ))}
                 <li className="right dropdown">
