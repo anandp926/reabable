@@ -82,7 +82,7 @@ const mapStateToProps = (state) => {
 };
 
 export const mapDispatchToProps = (dispatch) =>({
-    fetchAllPosts: (filter) => api.getAllPosts(filter).then(posts => dispatch(fetchAllPosts(posts)))
+    fetchAllPosts: (filter) => api.getAllPostsForCategory(filter).then(posts => dispatch(fetchAllPosts(posts)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
