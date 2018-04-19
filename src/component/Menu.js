@@ -4,32 +4,17 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
 import { connect } from 'react-redux'
-import { fetchCategories } from '../actions/category'
-import { fetchNewPosts } from '../actions/posts'
-import * as api from '../utils/api'
 import Addpost from './Addpost'
-import uuid from 'uuid'
-import FormSerialize from 'form-serialize'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import {capitalize} from '../utils/helper'
 
 class Menu extends Component{
 
-    handleFormSubmit = (event) =>{
-        event.preventDefault();
-        const value = FormSerialize(event.target, {hash: true});
-        const postId = uuid();
-        const post = {
-            ...value,
-            timestamp: Date.now(),
-            id: postId
-        }
-
-        this.props.fetchNewPosts(post).then(({ post }) => {
-            this.props.history.push(`/${post.category}/${post.id}`);
-        })
-
-    }
+    static propTypes = {
+        sortType: PropTypes.func.isRequired
+    };
 
     constructor () {
         super();
@@ -48,27 +33,27 @@ class Menu extends Component{
     handleCloseModal () {
         this.setState({ showModal: false });
     }
-    componentDidMount () {
-        this.props.fetchCategories();
-    }
 
     render() {
-        const {categories} = this.props;
+        const {categories, sortType} = this.props;
         return(
             <ul className="Top-nav">
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
                 {categories !== 'undefined' && categories.map( (category) =>(
-                    <li key={category.path}>
-                        <Link to={category.path}>
-                            {category.name}
+                    <li key={`/${category.path}`}>
+                        <Link to={`/${category.path}`}>
+                            {capitalize(category.name)}
                         </Link>
                     </li>
                 ))}
                 <li className="right dropdown">
-                    <a>Dropdown</a>
+                    <a>Sort Post By</a>
                         <div className="dropdown-content">
-                            <a href="time">Link 1</a>
-                            <a href="voteup">Link 2</a>
-                            <a href="votedown">Link 3</a>
+                            <button value="-voteScore" onClick={(e) => sortType(e.target.value)}>UpVote</button>
+                            <button value="voteScore" onClick={(e) => sortType(e.target.value)}>DownVote</button>
+                            <button value="-timestamp" onClick={(e) => sortType(e.target.value)}>New</button>
                         </div>
                 </li>
                 <li className="right Add-new-post"><a onClick={this.handleOpenModal}>Add New Post</a></li>
@@ -80,7 +65,7 @@ class Menu extends Component{
                     <div className="right">
                         <button className="btncss" onClick={this.handleCloseModal}><FaTimesCircleO size={30}/></button>
                     </div>
-                    <Addpost onFormSubmit={this.handleFormSubmit}/>
+                    <Addpost modal={this.handleCloseModal} />
                 </Modal>
             </ul>
         )
@@ -88,13 +73,10 @@ class Menu extends Component{
 }
 const mapStateToProps = (state) => {
     return{
-        categories: Object.values(state.categories)
+        categories: Object.values(state.categories),
     }
 };
 
-export const mapDispatchToProps = (dispatch) =>({
-    fetchCategories: () => api.getCategory().then(categories => dispatch(fetchCategories(categories))),
-    fetchNewPosts: (post) => api.addNewPost(post).then(post => dispatch(fetchNewPosts(post)))
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+
+export default connect(mapStateToProps)(Menu)

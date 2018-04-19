@@ -2,74 +2,160 @@
  * Created by rozer on 3/31/2018.
  */
 import React, { Component } from 'react'
-import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
-import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down'
-import FaTrashO from 'react-icons/lib/fa/trash-o'
-import FaCommentO from 'react-icons/lib/fa/comment-o'
+import PostControl from './PostControl'
+import FaEdit from 'react-icons/lib/fa/edit'
+import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
 import { connect } from 'react-redux'
-import { fetchAllPosts } from '../actions/posts'
+import { deletePost } from '../actions/posts'
 import * as api from '../utils/api'
 import Comment from './Comment'
 import { Link } from 'react-router-dom'
+import ShowComment from './ShowComment'
+import Modal from 'react-modal'
+import Addpost from './Addpost'
+import sortBy from 'sort-by'
+
 
 class Post extends Component {
+    
+    state={
+        pcId:"",
+        commentPId:"",
+        editId:"",
+        commentId:"",
+        editMode:false,
+        editCommentMode:false,
+        commentBox:false,
+        commentBoxEdit:false,
+        showComment:false
+    };
 
-    componentDidMount(){
-        const filter = this.props.match.params.category || false;
-        this.props.fetchAllPosts(filter);
+    constructor () {
+        super();
+        this.state = {
+            showModal: false
+        };
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
     }
-    componentWillReceiveProps(nextProps){
-        if( nextProps.match.params.category !== this.props.match.params.category ) {
-            const filter = nextProps.match.params.category || false;
-            this.props.fetchPosts(filter);
-            console.log(filter)
-        }
+
+    handleOpenModal (id) {
+        this.setState({ 
+            showModal: true,
+            editId: id,
+            editMode:true
+        });
     }
+
+    handleCloseModal () {
+        this.setState({ showModal: false });
+    }
+        
+    removePost = (id) =>{
+        this.props.deletePost(id);
+    };
+    
+    openComment = (id) => {
+        this.setState({
+            pcId: id,
+            commentBox: true,
+            commentBoxEdit: false
+        });
+    };
+    closeComment = () =>{
+        this.setState({
+            commentBox:false,
+            commentBoxEdit: false
+        })
+    };
+
+    editComment = (id) =>{
+        this.setState({
+            commentId: id,
+            commentBoxEdit: true,
+            commentBox: false,
+            editCommentMode: true
+        })
+    };
+
+    parentPostId = (id) =>{
+        this.setState({
+            commentPId:id,
+            showComment:true
+        })
+    };
+
     render() {
-        const { posts } = this.props;
+        const { posts, sorttype } = this.props;
+        const filter = this.props.match.params.category || false;
+        const allPost = posts.filter(post => post.deleted===false).sort(sortBy(sorttype));
+        const categoryPost = posts.filter(post => post.category === filter && post.deleted === false).sort(sortBy(sorttype));
+        const filterPost = (filter === false || filter === undefined)
+                         ?  allPost
+                         :  categoryPost;
         return (
             <div className="News-body">
-                <div className="row">
-                {posts !== 'undefined' && posts.map((post) => {
+                {filterPost !== 'undefined' && filterPost.map((post) => {
                     return(
                         <div className="column" key={post.id}>
-                        <div className="card" >
-                            <div className="container">
-                                <div className="Time">
-                                    {post.timestamp}
+                            <div className="card" >
+                                <div className="container">
+                                    <div className="Time-Edit">
+                                            <span className="Time">
+                                                {post.timestamp}
+                                            </span>
+                                            <span className="Edit">
+                                                <FaEdit onClick={() => this.handleOpenModal(post.id)}/>
+                                            </span>
+                                    </div>
+                                    <h4>
+                                        <b><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></b>
+                                        <small className="Author">By: {post.author}</small>
+                                    </h4>
+                                    <p>
+                                        {post.body}
+                                    </p>
+                                    <div className="Like-comment">
+                                        <span className="Like-comment1">{post.voteScore} Likes</span>
+                                            <span className="Like-comment2">
+                                                <a onClick={() => this.parentPostId(post.id)}>
+                                                    <u>{post.commentCount} Comments</u>
+                                                </a>
+                                            </span>
+                                    </div>
+                                    <PostControl post={post} onDeletePost={this.removePost} openCommentBox={this.openComment}/>
+                                    { (this.state.showComment && post.id === this.state.commentPId)
+                                        ? <div>
+                                            <ShowComment pId={this.state.commentPId} onEditComment={this.editComment}/>
+                                            { (this.state.commentBoxEdit)
+                                                ? <Comment cId={this.state.commentId} editCmt={this.state.editCommentMode} cboxClose={this.closeComment} />
+                                                : <div></div>
+                                            }
+                                          </div>
+                                        : <div></div>
+                                    }
+
+                                    { (this.state.commentBox && post.id === this.state.pcId )
+                                        ? <Comment postId={this.state.pcId}  cboxClose={this.closeComment}/>
+                                        : <div></div>
+                                    }
+
                                 </div>
-                                <h4>
-                                    <b><Link to={post.id}>{post.title}</Link></b>
-                                    <small className="Author">By: {post.author}</small>
-                                </h4>
-                                <p>
-                                    {post.body}
-                                </p>
-                                <div className="Like-comment">
-                                    <span className="Like-comment1">{post.voteScore} Likes</span>
-                                    <span className="Like-comment2">{post.commentCount} Comments</span>
-                                </div>
-                                <div className="Vote-comment">
-                                    <button className="Like">
-                                        <FaThumbsOUp size={30}/>
-                                    </button>
-                                    <button className="Like">
-                                        <FaThumbsODown size={30}/>
-                                    </button>
-                                    <button className="Like">
-                                        <FaCommentO size={30}/>
-                                    </button>
-                                    <button className="Comment">
-                                        <FaTrashO size={30}/>
-                                    </button>
-                                </div>
-                                <Comment postId={post.id}/>
                             </div>
-                        </div>
+                            <Modal
+                                isOpen={this.state.showModal}
+                                onRequestClose={this.handleCloseModal}
+                                className="Modal"
+                            >
+                                <div className="right">
+                                    <button className="btncss" onClick={this.handleCloseModal}><FaTimesCircleO size={30}/></button>
+                                </div>
+                                <Addpost modal={this.handleCloseModal} edit={this.state.editMode} editId={this.state.editId} />
+                            </Modal>
                         </div>
                     )
                 })}
-                </div>
             </div>
         );
     }
@@ -77,12 +163,12 @@ class Post extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        posts: Object.values(state.posts)
+        posts: Object.values(state.posts),
     }
 };
 
 export const mapDispatchToProps = (dispatch) =>({
-    fetchAllPosts: (filter) => api.getAllPostsForCategory(filter).then(posts => dispatch(fetchAllPosts(posts)))
+    deletePost: (data) => api.deletePost(data).then(data => dispatch(deletePost(data)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

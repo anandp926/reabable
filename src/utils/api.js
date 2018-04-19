@@ -40,11 +40,11 @@ export const addNewPost = (newPost) => {
         },
         body: JSON.stringify(newPost)
     })
-        .then(data => data.json()).then((post) => post)
+        .then(data => data.json())
 };
 
 // PUT /posts/:id
-export const editPost = (id, post) => {
+export const editPost = ({id, post}) => {
     return fetch(`${api}/posts/${id}`, {
         method: 'PUT',
         headers: {
@@ -63,28 +63,26 @@ export const getPost = (id) => {
 };
 
 // POST /posts/:id
-export const votePost = (id, option) => {
+export const votePost = ({id, vote}) => {
     return fetch(`${api}/posts/${id}`, {
         method: 'POST',
         headers: {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            option: option
-        })
+        body: JSON.stringify({option:vote})
     })
-        .then(data => data.json())
+        .then(data => data.json()).then(data=>data)
+
 };
 
 // DELETE /posts/:id
-export const deletePost = (id) => {
-    return fetch(`${api}/posts/${id}`, {
-        method: 'DELETE',
-        headers
-    })
-};
 
+export const deletePost = (id) =>{
+   return fetch(`${api}/posts/${id}`, { method: 'DELETE', headers })
+        .then(res => res.json())
+        .then(data => data)
+}
 // GET /posts/:id/comments
 export const getComments = (id) => {
     return fetch(`${api}/posts/${id}/comments`, { headers })
@@ -113,8 +111,10 @@ export const deleteComment = (id) => {
         .then(data => data.json())
 };
 
+
+
 // PUT /comments/:id
-export const editComment = (id, comment) => {
+export const editComment = ({id, comment}) => {
     return fetch(`${api}/comments/${id}`, {
         method: 'PUT',
         headers: {
@@ -127,7 +127,7 @@ export const editComment = (id, comment) => {
 };
 
 // POST /comments/:id
-export const voteComment = (id, option) => {
+export const voteComment = ({id, vote}) => {
     return fetch(`${api}/comments/${id}`, {
         method: 'POST',
         headers: {
@@ -135,7 +135,7 @@ export const voteComment = (id, option) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            option: option
+            option: vote
         })
     })
         .then(data => data.json())

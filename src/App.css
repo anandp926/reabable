@@ -1,5 +1,6 @@
 .App {
-    background-color: white;
+    background-color: #DDDDDD;
+    padding-bottom: 10%;
 }
 
 .App-header {
@@ -52,16 +53,18 @@ ul.Top-nav li a {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.dropdown-content a {
+.dropdown-content button {
     float: none;
     color: black;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
     display: block;
     text-align: left;
+    width: 100%;
+    cursor: pointer;
 }
 
-.dropdown-content a:hover {
+.dropdown-content button:hover {
     background-color: #ddd;
 }
 .dropdown:hover .dropdown-content {
@@ -87,44 +90,37 @@ ul.Top-nav li.right {float: right;}
 }
 
 .News-body{
-    margin-top: 1%;
+    padding-top: 1%;
+    background-color: #DDDDDD;
 }
-
 
 .column {
-    float: left;
-    width: 33.33%;
+    margin-left: 32%;
+    margin-right: 32%;
 }
 
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
     .column {
-        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 95%;
-    margin-left: 2.5%;
-    margin-bottom: 2%;
+    width: 100%;
+    margin-bottom: 3%;
 }
 
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
 
-.container {
+.card .container {
+    background: white;
     text-align: justify !important;
     padding: 2px 16px;
+    border: 1px solid lightslategray;
+    border-radius: 5px;
 }
 .container p{
     font-family: "Times New Roman",serif;
@@ -156,41 +152,57 @@ ul.Top-nav li.right {float: right;}
 .Like-comment2{
     float: right;
     color: #0056b3;
+    cursor: pointer;
+}
+.Time-Edit{
+    font-size: 13px;
+    font-family: "Arial Rounded MT Bold",SansSerif;
 }
 .Time{
+    text-align: left;
     font-size: 9px;
     color: #0056b3;
+}
+.Edit{
+    cursor: pointer;
+    float: right;
+    color: green;
 }
 .Author{
     float: right;
     color: darkred;
     font-size: 11px;
 }
+.Comment-Div{
+    background: #ebedf0;
+    padding: 2%;
+}
 .Show-comment{
     font-size: 11px;
-    padding: 0.5%;
-    background-color: #DDDDDD;
+    max-width: 98%;
+    width: max-content;
+    padding: 1%;
+    background-color: #ffffff;
     margin-bottom: 1px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 18px;
+}
+.Show-comment span{
+    color: #365899;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.Show-comment p{
+    word-wrap: break-word;
+    font-size: 13px;
+    line-height: 11px;
 }
 .Show-comment-button button{
     font-size: 9px;
     border-radius: 40%;
     background-color: white;
     box-shadow: none !important;
-}
-
-@media screen and (max-width: 600px){
-    .Body-left,.Body-right{
-        float: none;
-        width: auto;
-    }
-    .Modal{
-        width: 100%;
-        top:0;
-        left: 0 !important;
-        bottom: 0 !important;
-        right:0;
-    }
 }
 
 /* modal */
@@ -216,3 +228,111 @@ ul.Top-nav li.right {float: right;}
     background-color: #F2F2F2;
 }
 
+.comment-form{
+    background-color: white;
+    margin-top: 4%;
+}
+.author-comment input[type=text]{
+    width: 50%;
+    border-radius: 25px;
+    outline: none;
+}
+.author-comment .tarea{
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 25px;
+    outline: none !important;
+}
+.ac2 .post{
+    font-size: 18px;
+    float: right;
+    border-radius: 0;
+    border: none;
+    cursor: pointer;
+    background-color: dodgerblue;
+    color: white;
+    margin-right: 2%;
+}
+.ac2 .cancel{
+    font-size: 18px;
+    float: right;
+    border-radius: 0;
+    border: none;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+}
+
+.Post-Detail{
+    background: white;
+    width: 60%;
+    margin: 3%;
+    text-align: justify;
+}
+.Post-Detail-container{
+    padding: 5%;
+}
+.Post-Detail-header small{
+    float: right;
+    color: darkred;
+    font-size: small;
+}
+small span{
+    font-size: x-small;
+}
+
+.error{
+    color: red;
+    font-size: small;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.comment-control .comment-like{
+    padding: 1%;
+    margin-right: 1%;
+    cursor: pointer;
+}
+
+
+.comment-control .comment-dislike{
+    padding: 1%;
+    margin-left: 1%;
+    cursor: pointer;
+}
+
+.comment-control .edit{
+    padding: 1%;
+    margin-right: 1%;
+    float: right;
+    cursor: pointer;
+    color: #1e7e34;
+}
+.comment-control .delete{
+    padding: 1%;
+    cursor: pointer;
+    margin-right: 1%;
+    float: right;
+    color: red;
+}
+.comment-control .voteScore{
+    margin-left: 2%;
+}
+
+@media screen and (max-width: 600px){
+    .Body-left,.Body-right{
+        float: none;
+        width: auto;
+    }
+    .Modal{
+        width: 100%;
+        top:0;
+        left: 0 !important;
+        bottom: 0 !important;
+        right:0;
+    }
+    .Post-Detail{
+        width: 100%;
+        margin: 0;
+    }
+}

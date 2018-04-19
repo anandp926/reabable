@@ -3,8 +3,13 @@
  */
 import React, { Component } from 'react'
 import Menu from './Menu'
+import PropTypes from 'prop-types'
 
 class Header extends Component{
+    
+    static propTypes = {
+        sortType: PropTypes.func.isRequired  
+    };
     
     render() {
         return (
@@ -16,7 +21,7 @@ class Header extends Component{
                         <small className="quotes">Fastest coverage in the world</small>
                     </h1>
                 </div>
-                <Menu/>
+                <Menu sortType={this.props.sortType}/>
             </div>
         );
     }
