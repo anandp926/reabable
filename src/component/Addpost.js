@@ -76,8 +76,6 @@ class Addpost extends Component {
         }
     };
 
-
-
     render() {
 
         const { categories,edit } = this.props;

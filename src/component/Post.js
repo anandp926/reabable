@@ -27,7 +27,7 @@ class Post extends Component {
         editCommentMode:false,
         commentBox:false,
         commentBoxEdit:false,
-        showComment:false
+        showComment:false,
     };
 
     constructor () {
@@ -85,7 +85,6 @@ class Post extends Component {
             showComment:true
         })
     };
-
     render() {
         const { posts, sorttype } = this.props;
         const filter = this.props.match.params.category || false;

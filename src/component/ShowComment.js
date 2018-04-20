@@ -26,6 +26,11 @@ class ShowComment extends Component {
         const id = this.props.pId;
         this.props.fetchComments(id);
     }
+  /*  componentDidUpdate(prevProps) {
+        if(prevProps.comments !== this.props.comments)
+            this.props.fetchComments()
+    }
+    */
 
     editBox = (id) => {
         this.setState({

@@ -19,7 +19,14 @@ class App extends Component {
         this.props.fetchCategories();
         this.props.fetchAllPosts();
     }
-    
+
+  /*  componentDidUpdate(prevProps) {
+        if(prevProps.posts !== this.props.posts)
+        this.props.fetchAllPosts()
+    }
+    */
+
+
     onSort = (value) => {
       this.setState({
           sortType:value
@@ -62,6 +69,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
     return{
         categories: Object.values(state.categories),
+        posts: Object.values(state.posts)
     }
 };
 

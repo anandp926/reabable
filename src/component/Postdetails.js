@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import FaEdit from 'react-icons/lib/fa/edit'
 import ShowComment from './ShowComment'
 import Comment from './Comment'
+import PostControl from './PostControl'
+import * as api from '../utils/api'
+import {deletePost} from '../actions/posts'
 
 class Postdetails extends Component{
 
@@ -23,6 +26,10 @@ class Postdetails extends Component{
         });
     };
 
+    removePost = (id) =>{
+        this.props.deletePost(id);
+    };
+
     closeEditBox = () =>{
         this.setState({
             editCommentMode: false,
@@ -32,10 +39,16 @@ class Postdetails extends Component{
 
     closeCommentBox = () =>{
         this.setState({
-            postComment: true,
+            postComment: false
         })
     };
 
+    openComment = () => {
+        this.setState({
+            postComment: true,
+            editCommentMode: false
+        });
+    };
 
     render(){
         const { posts } = this.props;
@@ -71,6 +84,7 @@ class Postdetails extends Component{
                                 {post.body}
                             </p>
                         </div>
+                        <PostControl post={post} onDeletePost={this.removePost} openCommentBox={this.openComment}/>
                         <hr/>
                         <div className="Post-Detail-footer">
                             <h5>{post.voteScore} likes</h5>
@@ -100,4 +114,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(Postdetails)
+export const mapDispatchToProps = (dispatch) =>({
+    deletePost: (data) => api.deletePost(data).then(data => dispatch(deletePost(data)))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Postdetails)
