@@ -14,9 +14,14 @@ import ShowComment from './ShowComment'
 import Modal from 'react-modal'
 import Addpost from './Addpost'
 import sortBy from 'sort-by'
+import PropTypes from 'prop-types'
 
 
 class Post extends Component {
+    
+    static propTypes = {
+        update: PropTypes.func.isRequired
+    };
     
     state={
         pcId:"",
@@ -123,7 +128,7 @@ class Post extends Component {
                                                 </a>
                                             </span>
                                     </div>
-                                    <PostControl post={post} onDeletePost={this.removePost} openCommentBox={this.openComment}/>
+                                    <PostControl post={post} onDeletePost={this.removePost} update={this.props.update} openCommentBox={this.openComment}/>
                                     { (this.state.showComment && post.id === this.state.commentPId)
                                         ? <div>
                                             <ShowComment pId={this.state.commentPId} onEditComment={this.editComment}/>

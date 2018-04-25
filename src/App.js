@@ -12,7 +12,8 @@ import * as api from './utils/api'
 class App extends Component {
 
     state = {
-        sortType: "-timestamp"
+        sortType: "-timestamp",
+        postUpdate : false
     };
     
     componentDidMount () {
@@ -20,11 +21,22 @@ class App extends Component {
         this.props.fetchAllPosts();
     }
 
-  /*  componentDidUpdate(prevProps) {
-        if(prevProps.posts !== this.props.posts)
-        this.props.fetchAllPosts()
+    updatePost = (update) => {
+        this.setState({
+            postUpdate:update
+        });
+        console.log(this.state.postUpdate)
+    };
+    componentDidUpdate(prevProps,prevState) {
+        if(prevState.postUpdate !== this.state.postUpdate )
+        {
+            this.props.fetchAllPosts();
+            this.setState({
+                postUpdate: false
+            })
+        }
+        console.log(prevState.postUpdate)
     }
-    */
 
 
     onSort = (value) => {
@@ -41,21 +53,21 @@ class App extends Component {
                         <Route exact path="/" render = {({match}) => (
                         <div>
                             <Header sortType={this.onSort}/>
-                            <Post match={match}  sorttype={this.state.sortType} />
+                            <Post match={match}  sorttype={this.state.sortType} update={this.updatePost} />
                         </div>
                         )}>
                         </Route>
                         <Route exact path="/:category"  render = {({match}) => (
                         <div>
                             <Header sortType={this.onSort}/>
-                            <Post match={match} sorttype={this.state.sortType}/>
+                            <Post match={match} sorttype={this.state.sortType} update={this.updatePost}/>
                         </div>
                         )}>
                         </Route>
                         <Route exact path="/:category/:id" render = {({match}) => (
                         <div>
                             <Header sortType={this.onSort}/>
-                            <Postdetails match={match} sorttype={this.state.sortType}/>
+                            <Postdetails match={match} sorttype={this.state.sortType} update={this.updatePost}/>
                         </div>
                         )}>
                         </Route>

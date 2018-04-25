@@ -15,7 +15,8 @@ class PostControl extends Component {
 
     static propTypes = {
         onDeletePost: PropTypes.func.isRequired,
-        openCommentBox: PropTypes.func.isRequired
+        openCommentBox: PropTypes.func.isRequired,
+        update: PropTypes.func.isRequired
     }
 
     render() {
@@ -23,12 +24,18 @@ class PostControl extends Component {
         return(
             <div className="Vote-comment">
                 <button className="Like"
-                        onClick={() => this.props.incrementVote({id:post.id, vote:"upVote"})}
+                        onClick={() => {
+                        this.props.incrementVote({id:post.id, vote:"upVote"});
+                        this.props.update(true)
+                        }}
                 >
                     <FaThumbsOUp size={30}/>
                 </button>
                 <button className="Like"
-                        onClick={() => this.props.decrementVote({id:post.id, vote:"downVote"})}
+                        onClick={() => {
+                        this.props.decrementVote({id:post.id, vote:"downVote"})
+                        this.props.update(true)
+                        }}
                 >
                     <FaThumbsODown size={30}/>
                 </button>
@@ -36,7 +43,11 @@ class PostControl extends Component {
                     <FaCommentO size={30}/>
                 </button>
                 <button className="Comment"
-                        onClick={() => onDeletePost(post.id)}>
+                        onClick={() => {
+                                onDeletePost(post.id);
+                                this.props.update(true)
+                            }
+                        }>
                     <FaTrashO size={30}/>
                 </button>
             </div>

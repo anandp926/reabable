@@ -26,11 +26,6 @@ class ShowComment extends Component {
         const id = this.props.pId;
         this.props.fetchComments(id);
     }
-  /*  componentDidUpdate(prevProps) {
-        if(prevProps.comments !== this.props.comments)
-            this.props.fetchComments()
-    }
-    */
 
     editBox = (id) => {
         this.setState({
@@ -39,6 +34,11 @@ class ShowComment extends Component {
         })
     };
 
+   /* componentDidUpdate(prevProps,prevState) {
+        if(prevState.cId !== this.state.cId)
+            this.props.fetchComments(this.props.pId)
+    }
+*/
     render() {
         const { comments, pId, onEditComment } = this.props;
         const filterComment = comments.filter((comment) => comment.parentId ===pId && comment.deleted === false);

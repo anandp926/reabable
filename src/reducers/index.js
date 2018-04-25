@@ -3,14 +3,13 @@
  */
 import { combineReducers } from 'redux';
 import {categories} from './category';
-import { posts, postControl } from './posts'
+import { posts } from './posts'
 import {comments} from './comment'
 
 
 const rootReducer = combineReducers({
     categories,
     posts,
-    postControl,
     comments
 });
 

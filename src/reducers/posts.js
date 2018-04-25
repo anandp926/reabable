@@ -11,18 +11,10 @@ import {
 } from '../actions/posts'
 
 export function posts(state = {}, action) {
-    const {posts} = action;
+    const {posts, id, voteScore} = action;
     switch (action.type){
         case FETCH_ALLPOSTS:
             return posts;
-        default:
-            return state
-    }
-}
-
-export function postControl(state = {}, action) {
-    const {id, voteScore} = action;
-    switch (action.type){
         case ADD_NEW_POST:
             return {
                 ...state,
@@ -33,14 +25,14 @@ export function postControl(state = {}, action) {
                 ...state,
                 [id]:{
                     ...state[id],
-                    voteScore: voteScore
+                    voteScore: voteScore,
                 }
             };
         case DECREMENT_VOTE:
             return {
                 ...state,
                 [id]:{...state[id],
-                    voteScore: voteScore
+                    voteScore: voteScore,
                 }
             };
         case DELETE_POST:
@@ -57,7 +49,9 @@ export function postControl(state = {}, action) {
                     posts: action.posts
                 }
             };
+
         default:
             return state
     }
 }
+
