@@ -21,7 +21,7 @@ class App extends Component {
         this.props.fetchAllPosts();
     }
 
-    updatePost = (update) => {
+   /* updatePost = (update) => {
         this.setState({
             postUpdate:update
         });
@@ -38,7 +38,7 @@ class App extends Component {
         console.log(prevState.postUpdate)
     }
 
-
+*/
     onSort = (value) => {
       this.setState({
           sortType:value

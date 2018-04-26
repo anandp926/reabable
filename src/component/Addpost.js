@@ -161,8 +161,8 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addNewPost: (post) => api.addNewPost(post).then(post => dispatch(addNewPost(post))),
-        editPost: (post) => api.editPost(post).then(post => dispatch(editPost(post)))
+        addNewPost: (posts) => api.addNewPost(posts).then(posts => dispatch(addNewPost(posts))),
+        editPost: (posts) => api.editPost(posts).then(posts => dispatch(editPost(posts)))
     }
 }
 
