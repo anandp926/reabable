@@ -4,19 +4,47 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import FaEdit from 'react-icons/lib/fa/edit'
+import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
 import ShowComment from './ShowComment'
 import Comment from './Comment'
 import PostControl from './PostControl'
 import * as api from '../utils/api'
 import {deletePost} from '../actions/posts'
+import Modal from 'react-modal'
+import Addpost from './Addpost'
+import { Link } from 'react-router-dom'
 
 class Postdetails extends Component{
 
     state = {
         postComment: true,
         editCommentMode: false,
-        cmId: ''
+        cmId: '',
+        editId: '',
+        editMode: false
     };
+
+    constructor () {
+        super();
+        this.state = {
+            showModal: false
+        };
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
+    handleOpenModal (id) {
+        this.setState({
+            showModal: true,
+            editId: id,
+            editMode:true
+        });
+    }
+
+    handleCloseModal () {
+        this.setState({ showModal: false });
+    }
 
     editComment = (id) => {
         this.setState({
@@ -54,11 +82,12 @@ class Postdetails extends Component{
         const { posts } = this.props;
         const filterCategory = this.props.match.params.category || false;
         const filterId = this.props.match.params.id || false;
-        const filterPost = posts.filter(post => (post.id === filterId && post.category === filterCategory && post.deleted === false));
+        const filterPost = posts[0].filter(post => (post.id === filterId && post.category === filterCategory && post.deleted === false));
 
         return(
             <div className="Post-Detail">
-                {filterPost.map((post) => (
+                { filterPost.length > 0
+                  ? filterPost.map((post) => (
                     <div className="Post-Detail-container" key={post.id}>
                         <div className="Post-Detail-header">
                             <div className="Time-Edit">
@@ -66,7 +95,7 @@ class Postdetails extends Component{
                                 {post.timestamp}
                             </span>
                             <span className="Edit">
-                                <FaEdit/>
+                                <FaEdit onClick={() => this.handleOpenModal(post.id)}/>
                             </span>
                             </div>
                             <h1>
@@ -101,8 +130,27 @@ class Postdetails extends Component{
                         }
                         
                         <ShowComment pId={filterId} onEditComment={this.editComment}/>
+                        <Modal
+                            isOpen={this.state.showModal}
+                            onRequestClose={this.handleCloseModal}
+                            className="Modal"
+                        >
+                            <div className="right">
+                                <button className="btncss" onClick={this.handleCloseModal}><FaTimesCircleO size={30}/></button>
+                            </div>
+                            <Addpost modal={this.handleCloseModal} edit={this.state.editMode} editId={this.state.editId} />
+                        </Modal>
                     </div>
-                ))}
+                ))
+                : <div>
+                    <h1><strong>
+                        <center>NO Post Found</center>
+                    </strong></h1>
+                    <center>
+                        Go Back To <Link to="/">Home</Link>
+                    </center>
+                </div>
+                }
             </div>
         )
     }

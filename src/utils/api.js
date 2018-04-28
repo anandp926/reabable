@@ -89,6 +89,12 @@ export const getComments = (id) => {
         .then(response => response.json())
 };
 
+// GET /comments/:id
+export const getComment = (id) => {
+    return fetch(`${api}/comments/${id}`, { headers })
+        .then(response => response.json())
+};
+
 // POST /comments
 export const addComment = (newComment) => {
     return fetch(`${api}/comments`, {

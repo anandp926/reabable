@@ -11,21 +11,27 @@ import {
     UPDATE_POST
 } from '../actions/posts'
 
-export function posts(state = {}, action) {
-    const {posts, id,voteScore,post} = action;
+export function posts(state = {posts: []}, action) {
+    const { posts,id,voteScore} = action;
     switch (action.type){
         case FETCH_ALLPOSTS:
-            return posts;
+            return {
+                ...state,
+                posts: posts
+            };
         case ADD_NEW_POST:
             return {
                 ...state,
-                posts: action.posts
+                posts: [
+                    ...state.posts.concat(action.post)
+                ]
             };
         case UPDATE_POST:
             return {
                 ...state,
                 posts: [
                     ...state.posts.filter(post => post.id !== action.post.id),
+                    action.post
                 ]
             };
         case INCREMENT_VOTE:
@@ -46,9 +52,13 @@ export function posts(state = {}, action) {
         case DELETE_POST:
             return{
                 ...state,
-                [id]:{...state[id],
-                    deleted: true
-                }
+                [id]:{
+                    ...state[id],
+                    deleted: true,
+                },
+                posts:[
+                    ...state.posts.filter(post =>post.id !== id)
+                ]
             };
         case EDIT_POST:
             return {

@@ -5,7 +5,7 @@ let db = {}
 const defaultData = {
   "8xf0y6ziyjabvozdd253nd": {
     id: '8xf0y6ziyjabvozdd253nd',
-    timestamp: "April 19, 2018 12:20 PM",
+    timestamp: "April 19, 2018 12:25 PM",
     title: 'Udacity is the best place to learn React',
     body: 'Everyone says so after all.',
     author: 'thingtwo',

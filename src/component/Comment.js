@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 import * as api from '../utils/api'
 import PropTypes from 'prop-types'
 import TextareaAutosize from 'react-autosize-textarea';
-import { addComment, editComment } from '../actions/comment'
+import { addComment, editComment, updateComment } from '../actions/comment'
+import { updatePost } from '../actions/posts'
 import moment from 'moment'
 
 class Comment extends Component {
@@ -23,7 +24,7 @@ class Comment extends Component {
     };
 
     componentDidMount(){
-        const editComment = this.props.comments.filter(comment => comment.id === this.props.cId && comment.deleted === false);
+        const editComment = this.props.comments[0].filter(comment => comment.id === this.props.cId && comment.deleted === false);
         if(editComment){
             editComment.map(comment => (
                 this.setState({
@@ -50,7 +51,9 @@ class Comment extends Component {
                     body: this.state.body,
                     author: this.state.author
                 };
-                this.props.editComment({id:this.props.cId, comment:postComment});
+                this.props.editComment({id:this.props.cId, comment:postComment}).then(
+                    this.props.updateComment(this.props.cId)
+                );
                 this.resetForm();
             }else{
                 const postComment = {
@@ -60,7 +63,9 @@ class Comment extends Component {
                     body: this.state.body,
                     author: this.state.author
                 };
-                this.props.addComment(postComment);
+                this.props.addComment(postComment).then(
+                    this.props.updatePost(this.props.postId)
+                );
                 this.resetForm();
             }
         }else{
@@ -129,7 +134,9 @@ export function mapStateToProps(state) {
 export function mapDispatchToProps(dispatch) {
     return{
         addComment: (data) => api.addComment(data).then(data => dispatch(addComment(data))),
-        editComment: (data) => api.editComment(data).then(data => dispatch(editComment(data)))
+        editComment: (data) => api.editComment(data).then(data => dispatch(editComment(data))),
+        updatePost: (data) => api.getPost(data).then(post => dispatch(updatePost(post))),
+        updateComment: (data) => api.getComment(data).then(data => dispatch(updateComment(data)))
     }
 }
 

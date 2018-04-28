@@ -10,19 +10,19 @@ export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const UPDATE_POST = "UPDATE_POST";
 
-export const fetchAllPosts = posts => ({
+export const fetchAllPosts = (posts) => ({
     type: FETCH_ALLPOSTS,
     posts
 });
 
-export const updatePost = posts => ({
+export const updatePost = post => ({
     type : UPDATE_POST,
-    posts
+    post
 });
 
-export const addNewPost = (posts) => ({
+export const addNewPost = (post) => ({
     type: ADD_NEW_POST,
-    posts
+    post
 });
 
 export function incrementVote ({ id, voteScore }) {
@@ -39,7 +39,7 @@ export const decrementVote = ({id, voteScore}) =>({
     voteScore
 })
 
-export const deletePost = (id) =>({
+export const deletePost = ({id}) =>({
     type: DELETE_POST,
     id
 });

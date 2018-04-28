@@ -7,18 +7,31 @@ import {
     INCREMENT_COMMENT,
     DECREMENT_COMMENT,
     DELETE_COMMENT,
-    EDIT_COMMENT
+    EDIT_COMMENT,
+    UPDATE_COMMENT
 } from '../actions/comment'
 
-export function comments(state = {}, action) {
+export function comments(state = {comments: []}, action) {
     const { id, voteScore, comments } = action;
     switch (action.type) {
         case FETCH_COMMENTS:
-            return comments;
+            return {
+                comments: comments
+            };
         case ADD_NEW_COMMENT:
             return {
                 ...state,
-                comments:action.comments
+                comments: [
+                    ...state.comments.concat(action.comment)
+                ]
+            };
+        case UPDATE_COMMENT:
+            return {
+                ...state,
+                comments: [
+                    ...state.comments.filter(comment => comment.id !== action.comment.id),
+                    action.comment
+                ]
             };
         case INCREMENT_COMMENT:
             return {
@@ -40,7 +53,10 @@ export function comments(state = {}, action) {
                 ...state,
                 [id]:{...state[id],
                     deleted: true
-                }
+                },
+                comments: [
+                    ...state.comments.filter(comment => comment.id !== id),
+                ]
             };
         case EDIT_COMMENT:
             return{

@@ -14,12 +14,8 @@ import ShowComment from './ShowComment'
 import Modal from 'react-modal'
 import Addpost from './Addpost'
 import sortBy from 'sort-by'
-import PropTypes from 'prop-types'
-
 
 class Post extends Component {
-    
-   
     
     state={
         pcId:"",
@@ -91,14 +87,15 @@ class Post extends Component {
     render() {
         const { posts, sorttype } = this.props;
         const filter = this.props.match.params.category || false;
-        const allPost = posts.filter(post => post.deleted===false).sort(sortBy(sorttype));
-        const categoryPost = posts.filter(post => post.category === filter && post.deleted === false).sort(sortBy(sorttype));
+        const allPost = posts[0].filter(post => post.deleted===false).sort(sortBy(sorttype));
+        const categoryPost = posts[0].filter(post => post.category === filter && post.deleted === false).sort(sortBy(sorttype));
         const filterPost = (filter === false || filter === undefined)
                          ?  allPost
                          :  categoryPost;
         return (
             <div className="News-body">
-                {filterPost !== 'undefined' && filterPost.map((post) => {
+                {filterPost.length > 0
+                  ? filterPost !== 'undefined' && filterPost.map((post) => {
                     return(
                         <div className="column" key={post.id}>
                             <div className="card" >
@@ -116,7 +113,7 @@ class Post extends Component {
                                         <small className="Author">By: {post.author}</small>
                                     </h4>
                                     <p>
-                                        {post.body}
+                                        {post.body.split('\n', 1)[0]}
                                     </p>
                                     <div className="Like-comment">
                                         <span className="Like-comment1">{post.voteScore} Likes</span>
@@ -157,15 +154,21 @@ class Post extends Component {
                             </Modal>
                         </div>
                     )
-                })}
+                })
+                : <div>
+                    <h1><strong>
+                       <center>Sorry! No Post Found</center>
+                    </strong></h1>
+                </div>
+                }
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return{
-        posts: Object.values(state.posts),
+    return {
+        posts: Object.values(state.posts)
     }
 };
 

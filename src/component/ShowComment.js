@@ -4,7 +4,13 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { fetchComments, incrementComment, decrementComment, deleteComment } from '../actions/comment'
+import {
+    fetchComments,
+    incrementComment,
+    decrementComment,
+    deleteComment,
+    updateComment
+} from '../actions/comment'
 import * as api from '../utils/api'
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down'
@@ -33,15 +39,10 @@ class ShowComment extends Component {
             cId : id
         })
     };
-
-   /* componentDidUpdate(prevProps,prevState) {
-        if(prevState.cId !== this.state.cId)
-            this.props.fetchComments(this.props.pId)
-    }
-*/
+    
     render() {
         const { comments, pId, onEditComment } = this.props;
-        const filterComment = comments.filter((comment) => comment.parentId ===pId && comment.deleted === false);
+        const filterComment = comments[0].filter((comment) => comment.parentId ===pId && comment.deleted === false);
         return(
             <div className="Comment-Div">
                 <hr/>
@@ -56,10 +57,22 @@ class ShowComment extends Component {
                             <div className="comment-control">
                                 <span className="voteScore">{comment.voteScore}</span>
                                 <span className="comment-like">
-                                    <FaThumbsOUp onClick={() => this.props.incrementComment({id:comment.id,vote:"upVote"})}/>
+                                    <FaThumbsOUp
+                                        onClick={() => {
+                                        this.props.incrementComment({id:comment.id,vote:"upVote"}).then(
+                                        this.props.updateComment(comment.id)
+                                        )
+                                        }}
+                                    />
                                 </span>
                                 <span className="comment-dislike">
-                                    <FaThumbsODown onClick={() => this.props.decrementComment({id:comment.id,vote:"downVote"})}/>
+                                    <FaThumbsODown
+                                        onClick={() => {
+                                        this.props.decrementComment({id:comment.id,vote:"downVote"}).then(
+                                        this.props.updateComment(comment.id)
+                                        )
+                                        }}
+                                    />
                                 </span>
                                 <span className="edit" onClick={() => onEditComment(comment.id)}>
                                    <FaEdit/>
@@ -82,7 +95,6 @@ class ShowComment extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        posts: Object.values(state.posts),
         comments: Object.values(state.comments)
     }
 };
@@ -91,7 +103,8 @@ export const mapDispatchToProps = (dispatch) =>({
     fetchComments: (comments) => api.getComments(comments).then(comments => dispatch(fetchComments(comments))),
     incrementComment: (data) => api.voteComment(data).then(data => dispatch(incrementComment(data))),
     decrementComment: (data) => api.voteComment(data).then(data => dispatch(decrementComment(data))),
-    deleteComment: (data) => api.deleteComment(data).then(data => dispatch(deleteComment(data)))
+    deleteComment: (data) => api.deleteComment(data).then(data => dispatch(deleteComment(data))),
+    updateComment: (data) => api.getComment(data).then(data => dispatch(updateComment(data)))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(ShowComment)

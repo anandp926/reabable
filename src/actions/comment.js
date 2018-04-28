@@ -7,15 +7,21 @@ export const INCREMENT_COMMENT = "INCREMENT_COMMENT";
 export const DECREMENT_COMMENT = "DECREMENT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
+export const UPDATE_COMMENT = "UPDATE_COMMENT";
 
 export const fetchComments = (comments) => ({
     type: FETCH_COMMENTS,
     comments
 });
 
-export const addComment = (comments) => ({
+export const addComment = (comment) => ({
     type: ADD_NEW_COMMENT,
-    comments
+    comment
+});
+
+export const updateComment = comment => ({
+    type : UPDATE_COMMENT,
+    comment
 });
 
 export const incrementComment = ({id,voteScore}) => ({

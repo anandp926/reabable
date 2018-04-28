@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import '../style.css'
 import uuid from 'uuid'
-import {addNewPost, editPost} from '../actions/posts'
+import {addNewPost, editPost,updatePost} from '../actions/posts'
 import * as api from '../utils/api'
 import moment from 'moment'
 
@@ -20,7 +20,7 @@ class Addpost extends Component {
     };
 
     componentDidMount(){
-        const editPost = this.props.posts.filter(edpost => edpost.id === this.props.editId && edpost.deleted===false );
+        const editPost = this.props.posts[0].filter(edpost => edpost.id === this.props.editId && edpost.deleted===false );
         if(editPost){
             editPost.map((post) => (
                 this.setState({
@@ -56,7 +56,9 @@ class Addpost extends Component {
                     body: this.state.body,
                     category: this.state.category
                 };
-                this.props.editPost({id: this.props.editId,post:post});
+                this.props.editPost({id: this.props.editId,post:post}).then(
+                    this.props.updatePost(this.props.editId)
+                );
                 this.props.modal()
             }else{
                 const post = {
@@ -161,8 +163,9 @@ const mapStateToProps = (state) => {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addNewPost: (posts) => api.addNewPost(posts).then(posts => dispatch(addNewPost(posts))),
-        editPost: (posts) => api.editPost(posts).then(posts => dispatch(editPost(posts)))
+        addNewPost: (post) => api.addNewPost(post).then(post => dispatch(addNewPost(post))),
+        editPost: (posts) => api.editPost(posts).then(posts => dispatch(editPost(posts))),
+        updatePost: (data) => api.getPost(data).then(post => dispatch(updatePost(post))),
     }
 }
 
