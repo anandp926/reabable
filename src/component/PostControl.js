@@ -15,8 +15,8 @@ class PostControl extends Component {
 
     static propTypes = {
         onDeletePost: PropTypes.func.isRequired,
-        openCommentBox: PropTypes.func.isRequired,
-    }
+        openCommentBox: PropTypes.func.isRequired
+    };
 
     render() {
         const { post, onDeletePost, openCommentBox} = this.props;

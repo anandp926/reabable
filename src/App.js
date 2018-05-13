@@ -13,7 +13,7 @@ import NotFound from './component/NotFound'
 class App extends Component {
 
     state = {
-        sortType: "-timestamp",
+        sortType: "-timestamp"
     };
     
     componentDidMount () {
