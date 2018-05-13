@@ -19,6 +19,6 @@
     "clone": "^2.1.1"
   },
   "scripts": {
-    "start":"node server.js"
+    "start":"node server"
   }
 }
