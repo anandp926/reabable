@@ -13,12 +13,18 @@ import NotFound from './component/NotFound'
 class App extends Component {
 
     state = {
-        sortType: "-timestamp"
+        sortType: "-timestamp",
+        loadingPost: false
     };
     
     componentDidMount () {
+        this.setState(() => ({ loadingPost: true }));
         this.props.fetchCategories();
-        this.props.fetchAllPosts();
+        this.props.fetchAllPosts().then(() => {
+            this.setState({
+                loadingPost: false
+            })
+        });
     }
     
     onSort = (value) => {
@@ -35,14 +41,14 @@ class App extends Component {
                         <Route exact path="/" render = {({match}) => (
                         <div>
                             <Header sortType={this.onSort}/>
-                            <Post match={match}  sorttype={this.state.sortType}  />
+                            <Post match={match}  sorttype={this.state.sortType} loading={this.state.loadingPost} />
                         </div>
                         )}>
                         </Route>
                         <Route exact path="/:category"  render = {({match}) => (
                         <div>
                             <Header sortType={this.onSort}/>
-                            <Post match={match} sorttype={this.state.sortType} />
+                            <Post match={match} sorttype={this.state.sortType} loading={this.state.loadingPost} />
                         </div>
                         )}>
                         </Route>

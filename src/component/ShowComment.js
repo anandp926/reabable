@@ -16,6 +16,7 @@ import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down'
 import FaTrashO from 'react-icons/lib/fa/trash-o'
 import FaEdit from 'react-icons/lib/fa/edit'
+import Loading from 'react-loading'
 
 class ShowComment extends Component {
 
@@ -25,12 +26,18 @@ class ShowComment extends Component {
 
     state = {
         box : false,
-        cId : ""
+        cId : "",
+        loadingComment: false
     };
 
     componentDidMount() {
+        this.setState(() => ({ loadingComment: true }));
         const id = this.props.pId;
-        this.props.fetchComments(id);
+        this.props.fetchComments(id).then(() => {
+            this.setState({
+                loadingComment: false
+            })
+        });
     }
 
     editBox = (id) => {
@@ -46,16 +53,21 @@ class ShowComment extends Component {
         return(
             <div className="Comment-Div">
                 <hr/>
-                { (filterComment.length > 0)
-                    ?
-                    filterComment.map((comment) => (
-                        <div className="Show-comment" key={comment.id}>
-                            <p>
-                                <span>{comment.author}{" "}</span>
-                                {comment.body}
-                            </p>
-                            <div className="comment-control">
-                                <span className="voteScore">{comment.voteScore}</span>
+                {
+                    this.state.loadingComment === true
+                    ? <Loading delay={200} type='spin' color='#222' className='loading' />
+                    :
+                        <div>
+                            { (filterComment.length > 0)
+                                ?
+                                filterComment.map((comment) => (
+                                    <div className="Show-comment" key={comment.id}>
+                                        <p>
+                                            <span>{comment.author}{" "}</span>
+                                            {comment.body}
+                                        </p>
+                                        <div className="comment-control">
+                                            <span className="voteScore">{comment.voteScore}</span>
                                 <span className="comment-like">
                                     <FaThumbsOUp
                                         onClick={() => {
@@ -80,11 +92,13 @@ class ShowComment extends Component {
                                 <span className="delete">
                                     <FaTrashO onClick={() => this.props.deleteComment(comment.id)}/>
                                 </span>
-                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                                :
+                                <div>No Comments</div>
+                            }
                         </div>
-                    ))
-                    :
-                    <div>No Comments</div>
                 }
                 <hr/>
             </div>
