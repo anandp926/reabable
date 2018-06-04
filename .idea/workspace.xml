@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5533613f-bc09-4088-b91b-84410e2ae2b9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/AddPostFilter.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/component/Category.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.css" afterPath="$PROJECT_DIR$/src/App.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.js" afterPath="$PROJECT_DIR$/src/App.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/Header.js" afterPath="$PROJECT_DIR$/src/component/Header.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/Menu.js" afterPath="$PROJECT_DIR$/src/component/Menu.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/Post.js" afterPath="$PROJECT_DIR$/src/component/Post.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/PostControl.js" afterPath="$PROJECT_DIR$/src/component/PostControl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/Postdetails.js" afterPath="$PROJECT_DIR$/src/component/Postdetails.js" />
-    </list>
+    <list default="true" id="5533613f-bc09-4088-b91b-84410e2ae2b9" name="Default" comment="" />
     <ignored path="readable.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -435,15 +422,15 @@
       <workItem from="1528101470588" duration="10773000" />
       <workItem from="1528118681304" duration="7210000" />
       <workItem from="1528133514757" duration="6882000" />
-      <workItem from="1528143587074" duration="258000" />
+      <workItem from="1528143587074" duration="377000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="485447000" />
+    <option name="totallyTimeSpent" value="485566000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13541667" sideWeight="0.4917647" order="0" side_tool="false" content_ui="combo" />
