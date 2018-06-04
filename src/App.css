@@ -44,6 +44,14 @@
     .IconMenu {
         margin-left: 10%;
     }
+
+    .topMargin{
+        padding-top: 13%;
+    }
+
+    .loading {
+        padding-top: 13%;
+    }
 }
 
 
