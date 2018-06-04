@@ -1,24 +1,5 @@
 .App {
-    background-color: #DDDDDD;
-    padding-bottom: 10%;
-}
-
-.App-header {
-    background-color: white;
-    height: 50px;
-}
-
-.App-title {
-    padding-left: 1%;
-    padding-top: 1%;
-}
-
-.App-title1{
-    color: #222;
-}
-
-.App-title2{
-    color: dodgerblue;
+    background-color: #fff;
 }
 
 .quotes{
@@ -29,103 +10,43 @@
     padding-right: 1%;
 }
 
-ul.Top-nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: dodgerblue;
+.Material-Card {
+    margin-top: 1%;
+    margin-left: 22%;
+    margin-right: 22%;
 }
 
-ul.Top-nav li {float: left;}
-
-ul.Top-nav li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-}
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: slategray;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-.dropdown-content button {
-    float: none;
-    color: black;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
+.Vote {
+    width: 9%;
+    margin-top: 2%;
 }
 
-.dropdown-content button:hover {
-    background-color: #ddd;
-}
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-.dropdown {
-    background-color: green;
-    overflow: hidden;
-    cursor: pointer;
-}
-.Add-new-post{
-    background-color: red;
-    cursor: pointer;
+.Post{
+    width: 90%;
+    margin-left: 1%;
 }
 
-ul.Top-nav li a:hover:not(.active) {background-color: black;}
-
-ul.Top-nav li.right {float: right;}
-
-@media screen and (max-width: 600px){
-    ul.Top-nav li.right,
-    ul.Top-nav li {float: none;}
+.IconMenu {
+    margin-left: 50%;
 }
 
-.News-body{
-    padding-top: 1%;
-    background-color: #DDDDDD;
+.topMargin{
+    padding-top: 5%;
 }
 
-.column {
-    margin-left: 32%;
-    margin-right: 32%;
-}
-
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
-    .column {
+    .Material-Card {
+        margin-top: 2%;
         margin-left: 0;
         margin-right: 0;
     }
-}
 
-.card {
-    transition: 0.3s;
-    width: 100%;
-    margin-bottom: 3%;
+    .IconMenu {
+        margin-left: 10%;
+    }
 }
 
 
-.card .container {
-    background: white;
-    text-align: justify !important;
-    padding: 2px 16px;
-    border: 1px solid lightslategray;
-    border-radius: 5px;
-}
-.container p{
-    font-family: "Times New Roman",serif;
-    font-size: smaller;
-}
 .Like{
     cursor: pointer;
     width: 25%;
@@ -263,20 +184,6 @@ ul.Top-nav li.right {float: right;}
     color: white;
 }
 
-.Post-Detail{
-    background: white;
-    width: 60%;
-    margin: 3%;
-    text-align: justify;
-}
-.Post-Detail-container{
-    padding: 5%;
-}
-.Post-Detail-header small{
-    float: right;
-    color: darkred;
-    font-size: small;
-}
 small span{
     font-size: x-small;
 }
@@ -320,24 +227,18 @@ small span{
 }
 
 @media screen and (max-width: 600px){
-    .Body-left,.Body-right{
-        float: none;
-        width: auto;
-    }
     .Modal{
         width: 100%;
-        top:0;
+        top:10%;
         left: 0 !important;
         bottom: 0 !important;
         right:0;
-    }
-    .Post-Detail{
-        width: 100%;
-        margin: 0;
     }
 }
 
 .loading {
     align-self: center;
     margin: 0 auto;
+    padding-top: 5%;
 }
+

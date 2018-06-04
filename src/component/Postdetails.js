@@ -3,7 +3,6 @@
  */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import FaEdit from 'react-icons/lib/fa/edit'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
 import ShowComment from './ShowComment'
 import Comment from './Comment'
@@ -13,8 +12,23 @@ import {deletePost} from '../actions/posts'
 import Modal from 'react-modal'
 import Addpost from './Addpost'
 import { Link } from 'react-router-dom'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import AddComment from 'material-ui/svg-icons/editor/insert-comment';
+import Divider from 'material-ui/Divider';
 
-class Postdetails extends Component{
+const styles = {
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap'
+    }
+};
+
+class UiButton extends Component{
 
     state = {
         postComment: true,
@@ -85,51 +99,61 @@ class Postdetails extends Component{
         const filterPost = posts[0].filter(post => (post.id === filterId && post.category === filterCategory && post.deleted === false));
 
         return(
-            <div className="Post-Detail">
+            <div className="topMargin">
                 { filterPost.length > 0
-                  ? filterPost.map((post) => (
-                    <div className="Post-Detail-container" key={post.id}>
-                        <div className="Post-Detail-header">
-                            <div className="Time-Edit">
-                            <span className="Time">
-                                {post.timestamp}
-                            </span>
-                            <span className="Edit">
-                                <FaEdit onClick={() => this.handleOpenModal(post.id)}/>
-                            </span>
-                            </div>
-                            <h1>
-                                {post.title}
-                                <small>
-                                    <u>
-                                        <span>Author:</span>{" "}{post.author}
-                                    </u>
-                                </small>
-                            </h1>
-                        </div>
-                        <hr/>
-                        <div className="Post-Detail-body">
-                            <p>
-                                {post.body}
-                            </p>
-                        </div>
-                        <PostControl post={post} onDeletePost={this.removePost} openCommentBox={this.openComment}/>
-                        <hr/>
-                        <div className="Post-Detail-footer">
-                            <h5>{post.voteScore} likes</h5>
-                            <span><u>{post.commentCount} comments</u></span>
-                        </div>
-                        { this.state.editCommentMode
-                            ? <Comment cId={this.state.cmId} editCmt={this.state.editCommentMode} cboxClose={this.closeEditBox}/>
-                            : <div></div>
-                        }
-                        {
-                            this.state.postComment
-                            ? <Comment postId={filterId}  cboxClose = {this.closeCommentBox}/>
-                            : <div></div>
-                        }
-                        
-                        <ShowComment pId={filterId} onEditComment={this.editComment}/>
+                    ? filterPost.map((post) => (
+                    <div className="Material-Card" key={post.id}>
+                        <MuiThemeProvider>
+                            <Card style={{textAlign:'left'}}>
+                                <div style={styles.root}>
+                                    <div className="Vote">
+                                        <PostControl post={post} openCommentBox={this.openComment}/>
+                                    </div>
+                                    <div className="Post">
+                                        <div style={styles.root}>
+                                            <CardHeader
+                                                title={post.timestamp}
+                                                subtitle={`Author:- ${post.author}`}
+                                            />
+                                            <IconMenu
+                                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                                                className="IconMenu"
+                                            >
+                                                <MenuItem primaryText="Edit" onClick={() => this.handleOpenModal(post.id)}/>
+                                                <MenuItem primaryText="Delete" onClick={() => this.removePost(post.id)}/>
+                                            </IconMenu>
+                                        </div>
+                                        <CardTitle title={post.title}
+                                                   style={{paddingBottom:0, paddingTop:0}}
+                                        />
+                                        <CardText style={{paddingTop:0}}>
+                                            {post.body}
+                                        </CardText>
+                                        <CardActions>
+                                            <AddComment style={{cursor:'pointer'}} onClick={() => this.openComment(post.id)}/>
+                                            <a
+                                                style={{color:'blue', textDecoration:'underline', fontSize:13}}
+                                            >
+                                                {post.commentCount} comments
+                                            </a>
+                                        </CardActions>
+                                    </div>
+                                </div>
+                                <Divider />
+                                { this.state.editCommentMode
+                                    ? <Comment cId={this.state.cmId} editCmt={this.state.editCommentMode} cboxClose={this.closeEditBox}/>
+                                    : <div></div>
+                                }
+                                {
+                                    this.state.postComment
+                                        ? <Comment postId={filterId}  cboxClose = {this.closeCommentBox}/>
+                                        : <div></div>
+                                }
+                                <ShowComment pId={filterId} onEditComment={this.editComment}/>
+                            </Card>
+                        </MuiThemeProvider>
                         <Modal
                             isOpen={this.state.showModal}
                             onRequestClose={this.handleCloseModal}
@@ -142,7 +166,7 @@ class Postdetails extends Component{
                         </Modal>
                     </div>
                 ))
-                : <div>
+                    : <div>
                     <h1><strong>
                         <center>NO Post Found</center>
                     </strong></h1>
@@ -166,4 +190,4 @@ export const mapDispatchToProps = (dispatch) =>({
     deletePost: (data) => api.deletePost(data).then(data => dispatch(deletePost(data)))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Postdetails)
+export default connect(mapStateToProps, mapDispatchToProps)(UiButton)

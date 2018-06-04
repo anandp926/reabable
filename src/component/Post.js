@@ -1,24 +1,38 @@
 /**
  * Created by rozer on 3/31/2018.
  */
-import React, { Component } from 'react'
-import PostControl from './PostControl'
-import FaEdit from 'react-icons/lib/fa/edit'
-import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
-import { connect } from 'react-redux'
-import { deletePost } from '../actions/posts'
-import * as api from '../utils/api'
-import Comment from './Comment'
-import { Link } from 'react-router-dom'
-import ShowComment from './ShowComment'
+import React,{ Component } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import AddComment from 'material-ui/svg-icons/editor/insert-comment';
+import Divider from 'material-ui/Divider';
 import Modal from 'react-modal'
 import Addpost from './Addpost'
 import sortBy from 'sort-by'
 import Loading from 'react-loading'
+import * as api from '../utils/api'
+import { connect } from 'react-redux'
+import { deletePost } from '../actions/posts'
+import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
+import ShowComment from './ShowComment'
+import Comment from './Comment'
+import PostControl from './PostControl'
+import { Link } from 'react-router-dom'
+
+const styles = {
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap'
+    }
+};
 
 class Post extends Component {
-    
-    state={
+
+    state = {
         pcId:"",
         commentPId:"",
         editId:"",
@@ -41,7 +55,7 @@ class Post extends Component {
     }
 
     handleOpenModal (id) {
-        this.setState({ 
+        this.setState({
             showModal: true,
             editId: id,
             editMode:true
@@ -51,11 +65,11 @@ class Post extends Component {
     handleCloseModal () {
         this.setState({ showModal: false });
     }
-        
+
     removePost = (id) =>{
         this.props.deletePost(id);
     };
-    
+
     openComment = (id) => {
         this.setState({
             pcId: id,
@@ -86,50 +100,65 @@ class Post extends Component {
         })
     };
     render() {
+
         const { posts, sorttype, loading } = this.props;
         const filter = this.props.match.params.category || false;
         const allPost = posts[0].filter(post => post.deleted===false).sort(sortBy(sorttype));
         const categoryPost = posts[0].filter(post => post.category === filter && post.deleted === false).sort(sortBy(sorttype));
         const filterPost = (filter === false || filter === undefined)
-                         ?  allPost
-                         :  categoryPost;
-        return (
-            <div className="News-body">
+            ?  allPost
+            :  categoryPost;
+
+        return(
+            <div>
                 {
                     loading === true
-                    ? <Loading delay={200} type='spin' color='#222' className='loading' />
-                    : 
-                        <div>
+                        ? <Loading delay={200} type='spin' color='#222' className='loading' />
+                        :
+                        <div className="topMargin">
                             {filterPost.length > 0
                                 ? filterPost !== 'undefined' && filterPost.map((post) => {
-                                return(
-                                    <div className="column" key={post.id}>
-                                        <div className="card" >
-                                            <div className="container">
-                                                <div className="Time-Edit">
-                                            <span className="Time">
-                                                {post.timestamp}
-                                            </span>
-                                            <span className="Edit">
-                                                <FaEdit onClick={() => this.handleOpenModal(post.id)}/>
-                                            </span>
+                                return (
+                                    <div className="Material-Card" key={post.id}>
+                                        <MuiThemeProvider>
+                                            <Card style={{textAlign:'left'}}>
+                                                <div style={styles.root}>
+                                                    <div className="Vote">
+                                                        <PostControl post={post}/>
+                                                    </div>
+                                                    <div className="Post">
+                                                        <div style={styles.root}>
+                                                            <CardHeader
+                                                                title={post.timestamp}
+                                                                subtitle={`Author:- ${post.author}`}
+                                                            />
+                                                            <IconMenu
+                                                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                                                                className="IconMenu"
+                                                            >
+                                                                <MenuItem primaryText="Edit" onClick={() => this.handleOpenModal(post.id)}/>
+                                                                <MenuItem primaryText="Delete" onClick={() => this.removePost(post.id)}/>
+                                                            </IconMenu>
+                                                        </div>
+                                                        <CardTitle title={<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>}
+                                                                   style={{paddingBottom:0, paddingTop:0}}
+                                                        />
+                                                        <CardText style={{paddingTop:0}}>
+                                                            {post.body.split('\n', 1)[0]}
+                                                        </CardText>
+                                                        <CardActions>
+                                                            <AddComment style={{cursor:'pointer'}} onClick={() => this.openComment(post.id)}/>
+                                                            <a onClick={() => this.parentPostId(post.id)}
+                                                               style={{cursor:'pointer', color:'blue', textDecoration:'underline', fontSize:13}}
+                                                            >
+                                                                {post.commentCount} comments
+                                                            </a>
+                                                        </CardActions>
+                                                    </div>
                                                 </div>
-                                                <h4>
-                                                    <b><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></b>
-                                                    <small className="Author">By: {post.author}</small>
-                                                </h4>
-                                                <p>
-                                                    {post.body.split('\n', 1)[0]}
-                                                </p>
-                                                <div className="Like-comment">
-                                                    <span className="Like-comment1">{post.voteScore} Likes</span>
-                                            <span className="Like-comment2">
-                                                <a onClick={() => this.parentPostId(post.id)}>
-                                                    <u>{post.commentCount} Comments</u>
-                                                </a>
-                                            </span>
-                                                </div>
-                                                <PostControl post={post} onDeletePost={this.removePost}  openCommentBox={this.openComment}/>
+                                                <Divider />
                                                 { (this.state.showComment && post.id === this.state.commentPId)
                                                     ? <div>
                                                     <ShowComment pId={this.state.commentPId} onEditComment={this.editComment}/>
@@ -145,9 +174,8 @@ class Post extends Component {
                                                     ? <Comment postId={this.state.pcId}  cboxClose={this.closeComment}/>
                                                     : <div></div>
                                                 }
-
-                                            </div>
-                                        </div>
+                                            </Card>
+                                        </MuiThemeProvider>
                                         <Modal
                                             isOpen={this.state.showModal}
                                             onRequestClose={this.handleCloseModal}
@@ -161,16 +189,17 @@ class Post extends Component {
                                     </div>
                                 )
                             })
-                                : <div>
-                                <h1><strong>
-                                    <center>Sorry! No Post Found</center>
-                                </strong></h1>
-                            </div>
+                                :
+                                <div>
+                                    <h1><strong>
+                                        <center>Sorry! No Post Found</center>
+                                    </strong></h1>
+                                </div>
                             }
                         </div>
                 }
             </div>
-        );
+        )
     }
 }
 
@@ -185,3 +214,4 @@ export const mapDispatchToProps = (dispatch) =>({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
+

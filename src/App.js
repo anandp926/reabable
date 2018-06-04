@@ -41,7 +41,7 @@ class App extends Component {
                         <Route exact path="/" render = {({match}) => (
                         <div>
                             <Header sortType={this.onSort}/>
-                            <Post match={match}  sorttype={this.state.sortType} loading={this.state.loadingPost} />
+                            <Post match={match} sorttype={this.state.sortType} loading={this.state.loadingPost} />
                         </div>
                         )}>
                         </Route>

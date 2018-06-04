@@ -2,55 +2,46 @@
  * Created by rozer on 4/14/2018.
  */
 import React, { Component } from 'react'
+import ArrowDropUp from 'material-ui/svg-icons/navigation/arrow-drop-up'
+import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import {red500, greenA200} from 'material-ui/styles/colors';
+import {List, ListItem} from 'material-ui/List';
 import {connect} from 'react-redux'
-import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up'
-import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down'
-import FaTrashO from 'react-icons/lib/fa/trash-o'
-import FaCommentO from 'react-icons/lib/fa/comment-o'
 import {decrementVote,incrementVote, updatePost} from '../actions/posts'
 import * as api from '../utils/api'
-import PropTypes from 'prop-types'
 
 class PostControl extends Component {
 
-    static propTypes = {
-        onDeletePost: PropTypes.func.isRequired,
-        openCommentBox: PropTypes.func.isRequired
-    };
-
     render() {
-        const { post, onDeletePost, openCommentBox} = this.props;
+        const { post} = this.props;
         return(
-            <div className="Vote-comment">
-                <button className="Like"
-                        onClick={() => {
+            <List>
+                <ListItem
+                    leftIcon={
+                          <ArrowDropUp
+                          color={greenA200}
+                          style={{width:125, height:50}}
+                          viewBox="6 9 50 20"/>}
+                    onClick={() => {
                         this.props.incrementVote({id:post.id, vote:"upVote"}).then(
                         this.props.updatePost(post.id)
                         )
                         }}
-                >
-                    <FaThumbsOUp size={30}/>
-                </button>
-                <button className="Like"
-                        onClick={() => {
+                />
+                <ListItem primaryText={post.voteScore} style={{textAlign:'center'}}/>
+                <ListItem
+                    leftIcon={
+                          <ArrowDropDown
+                          color={red500}
+                          style={{width:125, height:50}}
+                          viewBox="6 10 50 20"/>}
+                    onClick={() => {
                         this.props.decrementVote({id:post.id, vote:"downVote"}).then(
                         this.props.updatePost(post.id)
                         )
                         }}
-                >
-                    <FaThumbsODown size={30}/>
-                </button>
-                <button className="Like" onClick={() => openCommentBox(post.id)}>
-                    <FaCommentO size={30}/>
-                </button>
-                <button className="Comment"
-                        onClick={() => {
-                                onDeletePost(post.id);
-                            }
-                        }>
-                    <FaTrashO size={30}/>
-                </button>
-            </div>
+                />
+            </List>
         )
     }
 }
@@ -62,3 +53,4 @@ export const mapDispatchToProps = (dispatch) =>({
 });
 
 export default connect(null,mapDispatchToProps)(PostControl)
+
